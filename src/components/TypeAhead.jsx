@@ -2,9 +2,19 @@ import React, { useState } from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 
-const TypeAhead = () => {
+const TypeAhead = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
+  const [albums, setAlbums] = useState([]);
+
+  const handleArtistSelection = async (selected) => {
+      let artist = selected[0].name;
+      const albums_response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=17cc77161f71f4862428d38cc230c628&format=json`);
+      const datartist = await albums_response.json();
+      setAlbums(datartist.topalbums.album);
+      props.albumestop([])
+      props.albumestop(datartist.topalbums.album)  
+  };
 
   const handleSearch = async (query) => {
     setIsLoading(true);
@@ -16,9 +26,9 @@ const TypeAhead = () => {
     // Obtén las opciones de la respuesta de la API
     const artistOptions = data.results.artistmatches.artist.map((artist) => ({
       name: artist.name,
-      listeners: artist.listeners,
+      /*listeners: artist.listeners,
       url: artist.url,
-      image: artist.image[0]['#text']
+      image: artist.image[0]['#text']*/
     }));
 
     setOptions(artistOptions);
@@ -32,6 +42,7 @@ const TypeAhead = () => {
       labelKey="name"
       onSearch={handleSearch}
       options={options}
+      onChange={handleArtistSelection}
       placeholder="Escriba artista..."
     />
   );
