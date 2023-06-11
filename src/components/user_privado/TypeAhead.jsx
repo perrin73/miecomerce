@@ -5,16 +5,17 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 const TypeAhead = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
-  const [albums, setAlbums] = useState([]);
+  
 
   const handleArtistSelection = async (selected) => {
       let artist = selected[0].name;
       const albums_response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=17cc77161f71f4862428d38cc230c628&format=json`);
       const datartist = await albums_response.json();
-      setAlbums(datartist.topalbums.album);
       props.albumestop([])
-      props.albumestop(datartist.topalbums.album)  
+      props.albumestop (datartist.topalbums.album) 
   };
+
+  {/* OBTENER ALBUM -> http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=YOUR_API_KEY&artist=Cher&album=Believe&format=json*/}
 
   const handleSearch = async (query) => {
     setIsLoading(true);

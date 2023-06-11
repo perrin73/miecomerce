@@ -25,7 +25,7 @@ function NuevoAlbum() {
                     </div>
                     <div className="col-md-9">
                       <div className="card-body">
-                        <h5 className="fs-5" >{album.name}</h5>
+                        <h5 className="fs-6" >{album.name}</h5>
                         <p className="card-text">{album.mbid}</p>
                         
                       </div>
